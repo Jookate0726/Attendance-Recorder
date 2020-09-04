@@ -13,3 +13,6 @@ cursor.execute(''' CREATE TABLE Student_Attendence(
 database.commit()
 
 database.close()
+
+
+# After once the data table is created just comment the table creation because we dont want to create a table again which is already present
