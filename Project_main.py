@@ -4,6 +4,7 @@ from datetime import *
 from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import messagebox
+from tkinter import ttk
 
 # Creating window
 global main_Window
@@ -76,6 +77,29 @@ def details():
     details_window.geometry("800x500")
     details_window.configure(bg="gold")
 
+    # Using Treeview
+
+    treeview = ttk.Treeview(details_window)
+    treeview.pack(pady=50, ipadx=200, ipady=200)
+
+    scrlbar = ttk.Scrollbar(details_window, orient="vertical", command=treeview.yview)
+    scrlbar.pack(side='right', fill='x')
+    treeview.configure(xscrollcommand=scrlbar.set)
+
+    treeview["columns"] = ("1", "2", "3", "4")
+
+    treeview['show'] = 'headings'
+
+    treeview.column("1", width=90, anchor=W)
+    treeview.column("2", width=90, anchor=W)
+    treeview.column("3", width=90, anchor=CENTER)
+    treeview.column("4", width=90, anchor=CENTER)
+
+    treeview.heading("1", text="Date")
+    treeview.heading("2", text="Name")
+    treeview.heading("3", text="Entry Time")
+    treeview.heading("4", text="Exit Time")
+
     database = sqlite3.connect("Attendance_File.db")
 
     cursor = database.cursor()
@@ -93,16 +117,19 @@ def details():
     detail = cursor.fetchall()
 
     for i in detail:
-        detail_sep = "Name : " + i[1] + ", Date : " + i[0] + ", Entry time : " + i[2] + ", Exit time : " + i[3]
+        num = 0
+        iid = "l" + str(num)
+        num += 1
 
-        Label(details_window, text=detail_sep, bg="gold", font=("comicsan",15)).pack(pady=(20, 0))
+        treeview.insert("", 'end', text=iid, values=(i[0], i[1], i[2], i[3]))
+
 
     database.commit()
 
     database.close()
 
 
-# Window 
+# Window
 Label(main_Window, image=img).pack(pady=(50, 20))
 Button(main_Window, text="Enter Details", bg="silver", font=("comicsans", 20), command=enter).pack(pady=20, ipadx=300)
 Button(main_Window, text="Get Details", bg="silver", font=("comicsans", 20), command=details).pack(pady=20, ipadx=310)
