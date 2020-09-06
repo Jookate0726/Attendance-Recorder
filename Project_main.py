@@ -102,7 +102,7 @@ def details():
     database.close()
 
 
-# Window
+# Window 
 Label(main_Window, image=img).pack(pady=(50, 20))
 Button(main_Window, text="Enter Details", bg="silver", font=("comicsans", 20), command=enter).pack(pady=20, ipadx=300)
 Button(main_Window, text="Get Details", bg="silver", font=("comicsans", 20), command=details).pack(pady=20, ipadx=310)
